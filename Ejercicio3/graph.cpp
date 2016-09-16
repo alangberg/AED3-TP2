@@ -1,5 +1,13 @@
 #include "graph.h"
 
+void imprimirVector(vector<int> v){
+	if(v.size() == 0) return; // si no tiene nada, que no imprima nada
+	for(int i = 0; i < v.size(); ++i){
+		cout << v[i] << " ";
+	}
+	cout << endl;
+}
+
 
 
 int main(int argc, char const *argv[])
@@ -17,9 +25,20 @@ int main(int argc, char const *argv[])
 
 	//g.mostrar();
 
-	 cout << g.caminoMinimo(0)<<endl;
+	vector<int> v;
+	 cout << g.caminoMinimo(0,v)<<endl;
+	 imprimirVector(v);
 
 	return 0;
+}
+
+vector<int> reverse(vector<int> v){
+	int j = 0;
+	vector<int> res;
+	for(int i = v.size()-1; i >= 0; --i){
+		res.push_back(v[i]);
+	}
+	return res;
 }
 
 void Grafo::leer(int cantAristas){
@@ -70,9 +89,31 @@ int Grafo::buscarMin(int minimos[], vector<int> zonaSegura){
 	return res;
 }
 
-int Grafo::caminoMinimo(int origen){
+
+void armarCaminoaux(vector<int>& res, vector<int>& v, int indice){
+	if(indice==0){	
+		res.push_back(1);
+	}else{ 
+
+	res.push_back(indice+1);
+	 armarCaminoaux(res, v, v[indice]);
+	}
+}
+
+
+vector<int> armarCamino(vector<int> v){
+	vector<int> res;
+	int n = v.size();
+
+	armarCaminoaux(res, v, n-1);
+	return res;
+}
+
+
+
+int Grafo::caminoMinimo(int origen, vector<int>& v){
 	int minimos[_cantnodos]; // Arreglo de costos, indexado por nodos.
-	int predecesor[_cantnodos]; // diccionario, dado un nodo devuelve su predecesor.
+	vector<int> predecesor (_cantnodos); // diccionario, dado un nodo devuelve su predecesor.
 	vector<int> zonaSegura (_cantnodos, 0);  // ya se sabe cuanto cuesta llegar a estos nodos.
 	zonaSegura[origen] = 1;
 	minimos[origen] = 0;
@@ -109,9 +150,12 @@ int Grafo::caminoMinimo(int origen){
 		}
 
 	}
-
+	v = reverse(armarCamino(predecesor));
 	return minimos[_cantnodos-1];
 }
+
+
+
 
 /*void Grafo::imprimirVector(int v[]){
 	if(_cantnodos == 0) return; // si no tiene nada, que no imprima nada

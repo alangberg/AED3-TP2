@@ -15,7 +15,7 @@ public:
 	void mostrar() const;
 	ostream& mostrarGrafo(ostream&) const;
 	int buscarMin(int minimos[], vector<int> zonaSegura);
-	int caminoMinimo(int origen);
+	int caminoMinimo(int origen, vector<int>& v);
 	//~Grafo();
 
 
