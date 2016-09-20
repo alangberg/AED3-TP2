@@ -88,8 +88,6 @@ int main(int argc, char** argv) {
 
 	Grafo grafo;
 
-	cout << "asd" << endl;
-
 	for (int i = 1; i < F - 1; i++) {
 		for (int j = 1; j < C - 1; j++) {
 			char c = matriz_raw[i][j];
@@ -115,8 +113,6 @@ int main(int argc, char** argv) {
 			}
 		}
 	}
-
-	// cout << grafo.kruskal() << endl;
 
 	grafo.imprimir();
 
