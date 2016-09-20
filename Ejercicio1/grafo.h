@@ -12,9 +12,8 @@ class Grafo {
 public:
 	struct Nodo {
 		Nodo(int i, vector<pair<int,int> > l = vector<pair<int, int> > ()) : id(i) {};
-		Nodo() :  id(-1), vecinos(vector<pair<int, int> > ()), distancia(-1) {};
+		Nodo() :  id(-1), vecinos(vector<pair<int, int> > ()) {};
 		
-		int distancia;
 		int id;
 		vector<pair<int, int> > vecinos; // si pair.first ==1 los nodos son vecinos, si es 2 hay una pared.
 	};
@@ -68,7 +67,7 @@ void Grafo::imprimir() {
 
 int Grafo::caminoMinimo(int origen, int destino, int P){
 	
-	// _nodos[origen]->distancia = 0;
+
 
 	vector<int> distancias (this->_cantnodos, -1);
 	distancias[origen] = 0;

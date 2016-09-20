@@ -14,8 +14,6 @@ Grafo::Grafo(int cantnodos): _cantnodos(cantnodos){
 }
 
 
-
-
 void Grafo::leer(int cantAristas){
 	int desde, hasta, peso;
 
