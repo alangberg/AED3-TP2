@@ -11,11 +11,12 @@ using namespace std;
 class Grafo {
 public:
 	struct Nodo {
-		Nodo(int i, vector<pair<int,int> > l = vector<pair<int, int> > ()) : id(i) {};
-		Nodo() :  id(-1), vecinos(vector<pair<int, int> > ()) {};
+		Nodo(int i, vector<int> l = vector<int> ()) : id(i) {};
+		Nodo() :  id(-1), vecinos(vector<int> ()), pared(false) {};
 		
+		bool pared;
 		int id;
-		vector<pair<int, int> > vecinos; // si pair.first ==1 los nodos son vecinos, si es 2 hay una pared.
+		vector<int> vecinos;
 	};
 
 	~Grafo();
@@ -55,11 +56,11 @@ Grafo::~Grafo() {
 void Grafo::imprimir() {
 	cout << '{' << endl;
 	for (unsigned int i = 0; i < this->_nodos.size(); i++) {
-		cout << this->_nodos[i]->id << " [ ";
+		cout << ' ' << this->_nodos[i]->id << " [ ";
 		for (unsigned int j = 0; j < this->_nodos[i]->vecinos.size(); j++) {
-			cout << "(" << this->_nodos[i]->vecinos[j].first << ", " << this->_nodos[i]->vecinos[j].second << ") ";
+			cout << this->_nodos[i]->vecinos[j] << ' ';
 		}
-		cout << "] " << endl;
+		cout << "] " << this->_nodos[i]->pared << endl;
 	}
 	cout << "} " << endl;
 
@@ -67,9 +68,8 @@ void Grafo::imprimir() {
 
 int Grafo::caminoMinimo(int origen, int destino, int P){
 	
-
-
 	vector<int> distancias (this->_cantnodos, -1);
+
 	distancias[origen] = 0;
 
 	queue<pair<int, int> > q;
@@ -80,16 +80,20 @@ int Grafo::caminoMinimo(int origen, int destino, int P){
 		pair<int, int> actual = q.front();
 		q.pop();
 
-		int pAux = actual.second;
 		int nodoActual = actual.first;
+		int pAux;
 
 		for (int i = 0; i < _nodos[nodoActual]->vecinos.size(); i++){
-			if(distancias[_nodos[nodoActual]->vecinos[i].second] == -1 && ((!(_nodos[nodoActual]->vecinos[i].first == 2)) || pAux > 0 )) {
-				if(_nodos[nodoActual]->vecinos[i].first == 2) pAux--;
-				
-				distancias[_nodos[nodoActual]->vecinos[i].second] = distancias[nodoActual] + _nodos[nodoActual]->vecinos[i].first;
+			pAux = actual.second;
+			int vecino = _nodos[nodoActual]->vecinos[i];
 
-				q.push(pair<int, int> (_nodos[nodoActual]->vecinos[i].second, pAux));
+			if(distancias[vecino] == -1 && (!(_nodos[vecino]->pared) || pAux > 0 )) {
+				if(_nodos[vecino]->pared) pAux--;
+				
+				if (_nodos[nodoActual]->pared && _nodos[vecino]->pared) distancias[vecino] = distancias[nodoActual] + 2;
+				else distancias[vecino] = distancias[nodoActual] + 1;
+
+				q.push(pair<int, int> (vecino, pAux));
 			}
 		}
 		j++;
