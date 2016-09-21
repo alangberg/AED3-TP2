@@ -1,0 +1,1 @@
+{ cat input && echo'' && echo '*****' && ./agm < input; } | python plot_graphs.py Grafo_Completo AGM
