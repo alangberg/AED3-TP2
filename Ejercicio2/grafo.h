@@ -1,65 +1,50 @@
-#pragma once
+#ifndef GRAFO_H
+#define GRAFO_H
 
 #include <vector>
-#include <list>
 #include <iostream>
 #include <utility>
-#include <queue>
 
 using namespace std;
 
 class Grafo {
-public:
-	struct Nodo {
-		Nodo(int i, vector<pair<int,int> > l = vector<pair<int, int> > ()) : id(i) {};
-		Nodo() :  id(-1), vecinos(vector<pair<int, int> > ()) {};
-		
-		int id;
-		vector<pair<int, int> > vecinos; // si pair.first ==1 los nodos son vecinos, si es 2 hay una pared.
-	};
+	public:
+		struct Nodo {
+			// esto es para imprimir a python, despues lo sacamos
+			pair<int, int> posicion;
+		};
 
-	~Grafo();
-	Grafo();
-	// Grafo(int cantnodos);
+		struct Arista {
+			int inicio;
+			int fin;
+			int peso;
+			
+			bool operator<(const Arista& a) const{
+				if(peso != a.peso)
+					return peso < a.peso;
+				if(inicio != a.inicio)
+					return inicio < a.inicio;
+				return fin < a.fin;
+			}
+		};
 
-	Nodo* nuevoNodo();
+		Grafo();
+		~Grafo();
+		int cantidadNodos();
+		int cantidadAristas();
+		Nodo iesimoNodo(int i);
+		Arista iesimaArista(int i);
+		void agregarNodo(int i, int j);
+		void agregarArista(int inicio, int fin, int peso);
+		void imprimir(ostream& os);
+		void eliminarAristas();
+		bool esConexo();
 
-	// void leer(int filas, int columnas);
-	// int caminoMinimo(int origen, int destino);
-	void imprimir();
-	
-	int _cantnodos;
-	vector<Nodo*> _nodos;
+	private:
+		vector<Nodo> _nodos;
+		vector<Arista> _aristas;
 };
 
-Grafo::Grafo() {
-	this->_cantnodos = 0;
-	this->_nodos = vector<Nodo*>();
-}
+void kruskal(Grafo& g);
 
-Grafo::Nodo* Grafo::nuevoNodo() {
-	Nodo* nodo = new Nodo;
-	this->_nodos.push_back(nodo);
-	this->_cantnodos++;
-	return nodo;
-}
-
-Grafo::~Grafo() {
-	// delete[] &(this->_nodos);
-	for (int i = 0; i < this->_nodos.size(); ++i) {
-		delete this->_nodos[i];
-	}
-}
-
-void Grafo::imprimir() {
-	cout << '{' << endl;
-	for (unsigned int i = 0; i < this->_nodos.size(); i++) {
-		cout << this->_nodos[i]->id << " [ ";
-		for (unsigned int j = 0; j < this->_nodos[i]->vecinos.size(); j++) {
-			cout << "(" << this->_nodos[i]->vecinos[j].first << ", " << this->_nodos[i]->vecinos[j].second << ") ";
-		}
-		cout << "] " << endl;
-	}
-	cout << "} " << endl;
-
-}
+#endif
