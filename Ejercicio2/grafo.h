@@ -13,7 +13,7 @@ using namespace std;
 class Grafo {
 	public:
 		struct Nodo {
-			// esto es para imprimir a python, despues lo sacamos
+			// este id es solo para despues poder graficar los nodos en forma de grilla en orden
 			pair<int, int> posicion;
 		};
 
@@ -33,21 +33,21 @@ class Grafo {
 
 		Grafo();
 		~Grafo();
-		int cantidadNodos();
-		int cantidadAristas();
-		Nodo iesimoNodo(int i);
-		Arista iesimaArista(int i);
+		int cantidadNodos() const;
+		int cantidadAristas() const;
+		const Nodo& iesimoNodo(int i) const;
+		const Arista& iesimaArista(int i) const;
 		void agregarNodo(int i, int j);
 		void agregarArista(int inicio, int fin, int peso);
-		void imprimir(ostream& os);
 		void eliminarAristas();
-		bool esConexo();
+		bool esConexo() const;
+		void imprimir(ostream& os) const;
 
 	private:
 		vector<Nodo> _nodos;
 		vector<Arista> _aristas;
 };
 
-void kruskal(Grafo& g);
+void kruskal(Grafo& g);// Modifica al grafo g
 
 #endif

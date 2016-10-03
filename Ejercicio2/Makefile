@@ -16,7 +16,7 @@ agm.o: agm.cpp grafo.h
 grafo.o: grafo.cpp grafo.h
 
 clean:
-	rm -f $(OBJS) $(MAIN)
+	rm -f $(OBJS) $(MAIN) salida
 
-prueba:
-	./ej2 < ./inputs/entrada1 | python plot_graphs.py "Grafo Original" "AGM"
+test:
+	./ej2 < inputs/entrada1 && python plot_graphs.py "Grafo Original" "AGM" < salida

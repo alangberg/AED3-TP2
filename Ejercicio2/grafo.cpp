@@ -4,20 +4,20 @@ Grafo::Grafo(){}
 
 Grafo::~Grafo(){}
 
-int Grafo::cantidadNodos(){
+int Grafo::cantidadNodos() const{
 	return this->_nodos.size();
 }
 
-int Grafo::cantidadAristas(){
+int Grafo::cantidadAristas() const{
 	return this->_aristas.size();
 }
 
-Grafo::Nodo Grafo::iesimoNodo(int i){
+const Grafo::Nodo& Grafo::iesimoNodo(int i) const{
 	assert(0 <= i && i < this->cantidadNodos());
 	return this->_nodos[i];
 }
 
-Grafo::Arista Grafo::iesimaArista(int i){
+const Grafo::Arista& Grafo::iesimaArista(int i) const{
 	assert(0 <= i && i < this->cantidadAristas());
 	return this->_aristas[i];	
 }
@@ -37,7 +37,7 @@ void Grafo::agregarArista(int inicio, int fin, int peso){
 	this->_aristas.push_back(a);
 }
 
-void Grafo::imprimir(ostream& os){
+void Grafo::imprimir(ostream& os) const{
 	os << this->cantidadNodos() << " " << this->cantidadAristas() << endl;
 
 	for(int i = 0; i < this->cantidadNodos(); i++)
@@ -55,7 +55,7 @@ void Grafo::eliminarAristas(){
 
 // Empieza desde un nodo cualquiera. El vector resultado tiene en la posicion i-esima la distancia desde el
 // nodo inicial hasta el nodo i en caso de existir, sino -1.
-vector<int> BFS(Grafo& g){
+vector<int> BFS(const Grafo& g){
 	// como no teniamos lista de vecinos, hay que armarla
 	vector< list <int> > vecinos(g.cantidadNodos());
 	for(int i = 0; i < g.cantidadAristas(); ++i){
@@ -86,7 +86,7 @@ vector<int> BFS(Grafo& g){
 	return distancias;
 }
 
-bool Grafo::esConexo(){ // O(V+E) = O(FC)
+bool Grafo::esConexo() const{ // O(V+E) = O(FC)
 	vector<int> distancias = BFS(*this);
 
 	for(vector<int>::iterator i = distancias.begin(); i != distancias.end(); ++i)
