@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	grafo.imprimir();
+	// grafo.imprimir();
 
 	cout << grafo.caminoMinimo(nodo_o, nodo_x, P) << endl;
 

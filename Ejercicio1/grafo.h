@@ -54,23 +54,27 @@ Grafo::~Grafo() {
 }
 
 void Grafo::imprimir() {
-	cout << '{' << endl;
+	int cant_aristas = 0;
 	for (unsigned int i = 0; i < this->_nodos.size(); i++) {
-		cout << ' ' << this->_nodos[i]->id << " [ ";
-		for (unsigned int j = 0; j < this->_nodos[i]->vecinos.size(); j++) {
-			cout << this->_nodos[i]->vecinos[j] << ' ';
-		}
-		cout << "] " << this->_nodos[i]->pared << endl;
+		for (unsigned int j = 0; j < this->_nodos[i]->vecinos.size(); j++) cant_aristas++;
 	}
-	cout << "} " << endl;
 
+	cant_aristas /= 2;
+	
+	cout << this->_cantnodos << ' ' << cant_aristas << endl;
+
+	for (unsigned int i = 0; i < this->_nodos.size(); i++) {
+		for (unsigned int j = 0; j < this->_nodos[i]->vecinos.size(); j++) {
+			if (this->_nodos[i]->id > this->_nodos[i]->vecinos[j]) cout << this->_nodos[i]->id << ' ' << this->_nodos[i]->vecinos[j] << " 1" << endl;
+		}
+	}
 }
 
 int Grafo::caminoMinimo(int origen, int destino, int P){
 	
-	vector<int> distancias (this->_cantnodos, -1);
+	vector<vector<int> > distancias(P+1, vector<int>(this->_cantnodos, -1));
 
-	distancias[origen] = 0;
+	distancias[P][origen] = 0;
 
 	queue<pair<int, int> > q;
 	q.push(pair<int, int>(origen, P));
@@ -83,24 +87,42 @@ int Grafo::caminoMinimo(int origen, int destino, int P){
 		int nodoActual = actual.first;
 		int pAux;
 
-		for (int i = 0; i < _nodos[nodoActual]->vecinos.size(); i++){
+		for(int i = 0; i < _nodos[nodoActual]->vecinos.size(); i++) {
 			pAux = actual.second;
 			int vecino = _nodos[nodoActual]->vecinos[i];
 
-			if(distancias[vecino] == -1 && (!(_nodos[vecino]->pared) || pAux > 0 )) {
-				if(_nodos[vecino]->pared) pAux--;
-				
-				if (_nodos[nodoActual]->pared && _nodos[vecino]->pared) distancias[vecino] = distancias[nodoActual] + 2;
-				else distancias[vecino] = distancias[nodoActual] + 1;
+			if(_nodos[vecino]->pared && pAux > 0) pAux--;
+			
+			if(distancias[pAux][vecino] == -1 && (!(_nodos[vecino]->pared) || pAux >= 0 )) {
+				if(_nodos[nodoActual]->pared && _nodos[vecino]->pared) distancias[pAux][vecino] = distancias[pAux+1][nodoActual] + 2;
+				else {
+					if(_nodos[vecino]->pared) distancias[pAux][vecino] = distancias[pAux+1][nodoActual] + 1;
+					else distancias[pAux][vecino] = distancias[pAux][nodoActual] + 1;
+				}
 
 				q.push(pair<int, int> (vecino, pAux));
+
+				for (int j = 0; j < distancias.size(); ++j) {
+					for (int k = 0; k < distancias[j].size(); ++k) {
+						cout << ' ';
+						if(distancias[j][k] != -1 && distancias[j][k] < 10) cout << "+";
+						cout << distancias[j][k];
+					}
+					cout << endl;
+				}
+				cout << endl;
 			}
 		}
 		j++;
 	}
 
-	return distancias[destino];
-
+	int minimo = -1;
+	for (int i = 0; i < P+1; ++i) {
+		if(distancias[i][destino] != -1 && distancias[i][destino] < minimo) {
+			minimo = distancias[i][destino];
+		}
+	}
+	return minimo;
 
 }
 
