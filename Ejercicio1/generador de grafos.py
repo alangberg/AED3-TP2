@@ -20,7 +20,7 @@ cant_paredes = 0
 
 grafo = [['#'] * C]
 
-for i in xrange(1, F):
+for i in xrange(1, F-1):
 	grafo.append(['#'])
 	for j in xrange(1, C-1):
 		if random.random() <= prob_pared:
@@ -33,9 +33,9 @@ for i in xrange(1, F):
 grafo.append(['#']*C)
 
 grafo[1][1] = 'o'
-grafo[F-1][C-2] = 'x'
+grafo[F-2][C-2] = 'x'
 
-P = int(math.ceil(math.sqrt(cant_paredes)))
+P = int(math.ceil(cant_paredes / 10))
 
 salida = str(F) + ' ' + str(C) + ' ' + str(P) + '\n'
 for fila in grafo:
