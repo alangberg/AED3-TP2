@@ -79,7 +79,6 @@ int Grafo::caminoMinimo(int origen, int destino, int P){
 	queue<pair<int, int> > q;
 	q.push(pair<int, int>(origen, P));
 	
-	int j=0;
 	while(!q.empty()){
 		pair<int, int> actual = q.front();
 		q.pop();
@@ -99,7 +98,6 @@ int Grafo::caminoMinimo(int origen, int destino, int P){
 			}
 			q.push(pair<int, int> (vecino, pAux));
 		}
-		j++;
 	}
 
 	int minimo = 999;
