@@ -92,14 +92,12 @@ int Grafo::caminoMinimo(int origen, int destino, int P){
 			int vecino = _nodos[nodoActual]->vecinos[i];
 
 			if(_nodos[vecino]->pared && pAux > 0 && distancias[pAux-1][vecino] == -1) {
+				distancias[pAux-1][vecino] = distancias[pAux][nodoActual] + 1;
 				pAux--;
-				if(_nodos[nodoActual]->pared) distancias[pAux][vecino] = distancias[pAux+1][nodoActual] + 2;
-				else distancias[pAux][vecino] = distancias[pAux+1][nodoActual] + 1;
-				q.push(pair<int, int> (vecino, pAux));
 			} else if (!_nodos[vecino]->pared && distancias[pAux][vecino] == -1) {
 				distancias[pAux][vecino] = distancias[pAux][nodoActual] + 1;
-				q.push(pair<int, int> (vecino, pAux));
 			}
+			q.push(pair<int, int> (vecino, pAux));
 		}
 		j++;
 	}
