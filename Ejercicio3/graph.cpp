@@ -80,7 +80,7 @@ int Grafo::caminoMinimo(int origen, vector<int>& v){
 
 
 	int w;
-	for (int j = 1; j < _cantnodos; ++j){
+	for (int j = 1; j < _cantnodos && !zonaSegura[_cantnodos-1]; ++j){
 		w = buscarMin(minimos, zonaSegura);
 		if(w==-1){
 			return -1;
