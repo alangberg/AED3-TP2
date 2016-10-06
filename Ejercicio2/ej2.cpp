@@ -21,22 +21,17 @@ int cantidadParedesVecinas(int pos_i, int pos_j, vector<string>& matriz){
     return res;
 }
 
+// requiere que en la (pos_i, pos_j) haya una pared destructible
 int idVecino(Direccion dir, int pos_i, int pos_j, vector< vector<int> >& matriz){
     if(dir == Derecha){
         if(matriz[pos_i][pos_j+1] != -1) return matriz[pos_i][pos_j+1];
         if(matriz[pos_i+1][pos_j] != -1) return matriz[pos_i+1][pos_j];
+        if(matriz[pos_i-1][pos_j] != -1) return -1; // ya pusimos la arista con este nodo
     } else { // Abajo
         if(matriz[pos_i][pos_j-1] != -1) return matriz[pos_i][pos_j-1];
         if(matriz[pos_i][pos_j+1] != -1) return matriz[pos_i][pos_j+1];
         if(matriz[pos_i+1][pos_j] != -1) return matriz[pos_i+1][pos_j];
     }
-}
-
-bool noVisitado(Direccion dir, int pos_i, int pos_j, vector< vector<int> >& matriz){
-    if(dir == Derecha)
-        return matriz[pos_i][pos_j+1] != -1 || matriz[pos_i+1][pos_j] != -1;
-    else // Abajo
-        return matriz[pos_i][pos_j-1] != -1 || matriz[pos_i][pos_j+1] != -1 || matriz[pos_i+1][pos_j] != -1;
 }
 
 int ctoi(char c){
@@ -92,16 +87,15 @@ int main(int argc, char** argv) {
 
         if(der == '.') 
             grafo.agregarArista(i, matriz_nodos[pos_i][pos_j+1], 0);
-        else if(esNumerico(der) && noVisitado(Derecha, pos_i, pos_j+1, matriz_nodos))
+        else if(esNumerico(der) && idVecino(Derecha, pos_i, pos_j+1, matriz_nodos)!=-1)
             grafo.agregarArista(i, idVecino(Derecha, pos_i, pos_j+1, matriz_nodos), ctoi(der));
 
         if(abj == '.') 
             grafo.agregarArista(i, matriz_nodos[pos_i+1][pos_j], 0);
-        else if(esNumerico(abj) && noVisitado(Abajo, pos_i+1, pos_j, matriz_nodos))
+        else if(esNumerico(abj))
             grafo.agregarArista(i, idVecino(Abajo, pos_i+1, pos_j, matriz_nodos), ctoi(abj));
 
-        // este caso es medio raro, hay que verlo bien
-        if(esNumerico(atr) && abj == '#' && matriz_raw[pos_i+1][pos_j-1] == '.')
+        if(esNumerico(atr) && matriz_raw[pos_i+1][pos_j-1] == '.')
             grafo.agregarArista(i, matriz_nodos[pos_i+1][pos_j-1], ctoi(atr));
     }
 
@@ -111,16 +105,16 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    /* No es parte del Ej */            // Para dibujar los grafos despues en python:
-    /* No es parte del Ej */            ofstream salidaParaGraficar;
-    /* No es parte del Ej */            salidaParaGraficar.open ("salida");
-    /* No es parte del Ej */            grafo.imprimir(salidaParaGraficar);// Original
-    /* No es parte del Ej */            salidaParaGraficar << "*****" << endl;// Separador
+    // /* No es parte del Ej */            // Para dibujar los grafos despues en python:
+    // /* No es parte del Ej */            ofstream salidaParaGraficar;
+    // /* No es parte del Ej */            salidaParaGraficar.open ("salida");
+    // /* No es parte del Ej */            grafo.imprimir(salidaParaGraficar);// Original
+    // /* No es parte del Ej */            salidaParaGraficar << "*****" << endl;// Separador
 
     kruskal(grafo);
 
-    /* No es parte del Ej */            grafo.imprimir(salidaParaGraficar);// AGM
-    /* No es parte del Ej */            salidaParaGraficar.close();
+    // /* No es parte del Ej */            grafo.imprimir(salidaParaGraficar);// AGM
+    // /* No es parte del Ej */            salidaParaGraficar.close();
 
     // contamos el peso total de las aristas y devolvemos la suma == paredes necesarias para conectar todo
     int res = 0;

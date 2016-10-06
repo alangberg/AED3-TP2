@@ -58,7 +58,7 @@ void kruskal(Grafo& g){
 		}
 	}
 
-	g.eliminarAristas();
+	g.eliminarAristas(); // O(E)
 
 	for(int i = 0; i < res.size(); i++)
 		g.agregarArista(res[i].inicio, res[i].fin, res[i].peso);
