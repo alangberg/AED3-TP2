@@ -70,6 +70,12 @@ int main(int argc, char** argv) {
         }
     }
 
+    // si no tenemos ningun nodo retornamos -1, no hay nada que unir
+    if(grafo.cantidadNodos() == 0){
+        cout << -1 << endl;
+        return 0;
+    }
+
     // reemplazamos las paredes invalidas por indestructibles
     for(int i = 1; i < F - 1; i++)
         for(int j = 1; j < C - 1; j++)
