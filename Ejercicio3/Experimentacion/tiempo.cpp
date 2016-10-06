@@ -1,4 +1,4 @@
-#include "graph.cpp"
+#include "../graph.cpp"
 #include <chrono>
 #include <stdlib.h>
 #include <vector>
@@ -34,19 +34,12 @@ int main(int argc, char const *argv[]){
 	int cantAristas;
 
 	vector< tupla<int , double> > mediciones;
-/*
-	for(unsigned long long p = pMin; p <= pow(10,pMax); p+=10065000231){
-		unsigned long long n = p;*/
-		//cout << n << endl;
-
 
 		cin >> cantNodos >> cantAristas;
 
 		Grafo g = Grafo(cantNodos);
 
-
 		g.leer(cantAristas);
-
 
 		vector<int> v;
 		int solucion;
