@@ -13,7 +13,6 @@ using namespace std;
 class Grafo {
 	public:
 		struct Nodo {
-			// este id es solo para despues poder graficar los nodos en forma de grilla en orden
 			pair<int, int> posicion;
 		};
 

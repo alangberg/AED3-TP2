@@ -79,7 +79,6 @@ int Grafo::caminoMinimo(int origen, int destino, int P){
 	queue<pair<int, int> > q;
 	q.push(pair<int, int>(origen, P));
 	
-	int j=0;
 	while(!q.empty()){
 		pair<int, int> actual = q.front();
 		q.pop();
@@ -92,25 +91,24 @@ int Grafo::caminoMinimo(int origen, int destino, int P){
 			int vecino = _nodos[nodoActual]->vecinos[i];
 
 			if(_nodos[vecino]->pared && pAux > 0 && distancias[pAux-1][vecino] == -1) {
+				distancias[pAux-1][vecino] = distancias[pAux][nodoActual] + 1;
 				pAux--;
-				if(_nodos[nodoActual]->pared) distancias[pAux][vecino] = distancias[pAux+1][nodoActual] + 2;
-				else distancias[pAux][vecino] = distancias[pAux+1][nodoActual] + 1;
 				q.push(pair<int, int> (vecino, pAux));
 			} else if (!_nodos[vecino]->pared && distancias[pAux][vecino] == -1) {
 				distancias[pAux][vecino] = distancias[pAux][nodoActual] + 1;
 				q.push(pair<int, int> (vecino, pAux));
 			}
 		}
-		j++;
 	}
 
-	int minimo = 999;
+	int minimo = 1000;
 	for (int i = 0; i < P+1; ++i) {
 		// cout << i << distancias[i][destino] << endl;
 		if(distancias[i][destino] != -1 && distancias[i][destino] < minimo) {
 			minimo = distancias[i][destino];
 		}
 	}
+	if(minimo == 1000) return -1;
 	return minimo;
 
 }
