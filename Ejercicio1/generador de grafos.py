@@ -35,7 +35,7 @@ grafo.append(['#']*C)
 grafo[1][1] = 'o'
 grafo[F-2][C-2] = 'x'
 
-P = int(math.ceil(cant_paredes / 10))
+P = int(math.ceil(cant_paredes))
 
 salida = str(F) + ' ' + str(C) + ' ' + str(P) + '\n'
 for fila in grafo:

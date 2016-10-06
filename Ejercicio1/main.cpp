@@ -6,9 +6,15 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <chrono>
+#include <stdlib.h>
+#include <utility>
+
 #include "grafo.h"
 
 using namespace std;
+
+#define ya chrono::high_resolution_clock::now
 
 enum Direccion { Arriba, Abajo, Izquierda, Derecha };
 
@@ -77,8 +83,11 @@ int main(int argc, char** argv) {
 
 	// grafo.imprimir();
 
-	cout << grafo.caminoMinimo(nodo_o, nodo_x, P) << endl;
+	auto start = ya();
+	int res = grafo.caminoMinimo(nodo_o, nodo_x, P);
+	auto end = ya();
 
+	cout << F << ' ' << C << ' ' << P << ' ' << res << " " << chrono::duration_cast<chrono::duration<double, std::nano>>(end-start).count() << endl;
 
 	return 0;
 }
