@@ -31,24 +31,26 @@ int main(int argc, char const *argv[]){
 	int cantAristas;
 
 	vector< tupla<int , double> > mediciones;
+	for (int i = 0; i < 11; ++i)
+	{
+		cin >> cantNodos >> cantAristas;
 
-	cin >> cantNodos >> cantAristas;
+		Grafo g = Grafo(cantNodos);
 
-	Grafo g = Grafo(cantNodos);
+		g.leer(cantAristas);
 
-	g.leer(cantAristas);
+		vector<int> v;
+		int solucion;
+		double medicion = 0;
+		auto inicio_medicion = ya();
+		for(int i = 0; i < repeticiones; i++){
+			solucion = 	g.caminoMinimo(0,v);
 
-	vector<int> v;
-	int solucion;
-	double medicion = 0;
-	auto inicio_medicion = ya();
-	for(int i = 0; i < repeticiones; i++){
-		solucion = 	g.caminoMinimo(0,v);
-
+		}
+		auto fin_medicion = ya();
+		tupla<int, double> t(cantNodos, (double) chrono::duration_cast<std::chrono::nanoseconds>(fin_medicion - inicio_medicion).count()/repeticiones);
+		mediciones.push_back(t);
 	}
-	auto fin_medicion = ya();
-	tupla<int, double> t(cantNodos, (double) chrono::duration_cast<std::chrono::nanoseconds>(fin_medicion - inicio_medicion).count()/repeticiones);
-	mediciones.push_back(t);
 		
 	for(int i = 0; i < mediciones.size(); i++){
 		cout << mediciones[i].primero << " "

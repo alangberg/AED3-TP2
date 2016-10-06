@@ -1,1 +1,3 @@
+g++ -std=c++11 tiempo.cpp -o tiempo.out
+
 python exp.py; ./tiempo.out 1 < workfile > data.out
