@@ -1,0 +1,1 @@
+python exp.py; ./tiempo.out 1 < workfile > data.out
