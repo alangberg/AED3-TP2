@@ -27,15 +27,16 @@ clock_t tFinish;
 int main(int argc, char const *argv[]){
 	int repeticiones = atoi(argv[1]);
 
-	int cantNodos;
+	int cantNodos=0;
 	int cantAristas;
 
 	vector< tupla<int , double> > mediciones;
-	for (int i = 0; i < 11; ++i)
-	{
+	for (int i = 0; i < 20; ++i){
+	
 		cin >> cantNodos >> cantAristas;
 
 		Grafo g = Grafo(cantNodos);
+
 
 		g.leer(cantAristas);
 
@@ -46,14 +47,15 @@ int main(int argc, char const *argv[]){
 		for(int i = 0; i < repeticiones; i++){
 			solucion = 	g.caminoMinimo(0,v);
 
-		}
+		}	
 		auto fin_medicion = ya();
 		tupla<int, double> t(cantNodos, (double) chrono::duration_cast<std::chrono::nanoseconds>(fin_medicion - inicio_medicion).count()/repeticiones);
-		mediciones.push_back(t);
+		
+		if(solucion!= -1) mediciones.push_back(t);
 	}
 		
 	for(int i = 0; i < mediciones.size(); i++){
-		cout << mediciones[i].primero << " "
+		cout <<fixed<< mediciones[i].primero << " "
 			<< mediciones[i].segundo << endl;
 	}
 }

@@ -10,20 +10,29 @@ def generadorRandom(nodosMAX):
 	#w, h = 8, 5. 
 	# Matrix = [[rand(1,1001) for x in range(nodos)] for y in range(nodos)] 
 	# print Matrix
+		# a = str(rand(1,1001))
+					# f.write(str(x+1))
+					# f.write(" ")
+					# f.write(str(y+1))
+					# f.write(" ")
+					# f.write(a)
+					# f.write('\n')
 
-	nodos = 10
+	nodos = 50
+
 
 	f = open('workfile', 'w')
 	
-	while nodos < nodosMAX :
-
+	while nodos <= nodosMAX :
+		aristas=10*nodos
 		matriz = []
 		cantAristas = 0
 		for x in range(nodos):
+			
 			l = []
 			for y in range(nodos):
-				if x<=y:
-					aux = rand(0,2)
+				if x<=y and cantAristas<aristas:
+					aux = rand(0,3)
 					if aux != 0:
 						l.append(rand(1,1001))
 						cantAristas = cantAristas + 1
@@ -31,13 +40,7 @@ def generadorRandom(nodosMAX):
 						l.append(0)
 				else:
 					l.append(0)
-					# a = str(rand(1,1001))
-					# f.write(str(x+1))
-					# f.write(" ")
-					# f.write(str(y+1))
-					# f.write(" ")
-					# f.write(a)
-					# f.write('\n')
+				
 			matriz.append(l)
 
 		f.write(str(nodos))
@@ -55,7 +58,8 @@ def generadorRandom(nodosMAX):
 					f.write(str(matriz[x][y]))
 					f.write('\n')
 		f.write('\n')
-		nodos = nodos + 100
+		nodos = nodos + 50
+		
 
 
 

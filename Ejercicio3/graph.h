@@ -15,6 +15,7 @@ public:
 	void mostrar() const;
 	ostream& mostrarGrafo(ostream&) const;
 	int caminoMinimo(int origen, vector<int>& v);
+	int cantNodos();
 	//~Grafo();
 
 

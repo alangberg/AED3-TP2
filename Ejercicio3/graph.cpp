@@ -13,6 +13,9 @@ Grafo::Grafo(int cantnodos): _cantnodos(cantnodos){
     _matriz = matriz;
 }
 
+int Grafo::cantNodos(){
+	return _cantnodos;
+}
 
 void Grafo::leer(int cantAristas){
 	int desde, hasta, peso;
@@ -48,7 +51,11 @@ int Grafo::buscarMin(int minimos[], vector<bool> zonaSegura){
 
 
 	int min= INF;
-	int res = -1;
+	int res=0;
+	while(res<_cantnodos && minimos[res]!=INF){
+		res++;
+	}
+
 	for (int i = 0; i < _cantnodos; ++i){
 		if(!(pertenece(i,zonaSegura)) && minimos[i]<min){
 			min = minimos[i];
@@ -59,12 +66,11 @@ int Grafo::buscarMin(int minimos[], vector<bool> zonaSegura){
 	return res;
 }
 
-
 int Grafo::caminoMinimo(int origen, vector<int>& v){
 	int minimos[_cantnodos]; // Arreglo de costos, indexado por nodos.
 	vector<int> predecesor (_cantnodos); // diccionario, dado un nodo devuelve su predecesor.
 	vector<bool> zonaSegura (_cantnodos, 0);  // si la posicion "i" es true, el nodo i esta en la zona segura.
-	zonaSegura[origen] = 1;
+	zonaSegura[origen] = true;
 	minimos[origen] = 0;
 	predecesor[origen] = 0;
 
@@ -78,14 +84,15 @@ int Grafo::caminoMinimo(int origen, vector<int>& v){
 		}
 	}
 
-
 	int w;
-	for (int j = 1; j < _cantnodos && !zonaSegura[_cantnodos-1]; ++j){
+	//for (int j = 1; j < _cantnodos && !zonaSegura[_cantnodos-1]; ++j){
+	for (int j = 1; j < _cantnodos; ++j){
 		w = buscarMin(minimos, zonaSegura);
-		if(w==-1){
+		/*if(w==-1){
 			return -1;
-		}
-		zonaSegura[w] = 1;
+		}*/
+
+		zonaSegura[w] = true;
 		
 
 		for (int i = 0; i < _cantnodos ; ++i){
@@ -99,6 +106,8 @@ int Grafo::caminoMinimo(int origen, vector<int>& v){
 		}
 
 	}
+	if(minimos[_cantnodos-1] == INF) return -1;
 	v = reverse(armarCamino(predecesor));
+
 	return minimos[_cantnodos-1];
 }
